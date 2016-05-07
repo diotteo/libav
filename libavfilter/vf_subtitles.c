@@ -223,8 +223,6 @@ static const AVOption ass_options[] = {
     {NULL},
 };
 
-AVFILTER_DEFINE_CLASS(ass);
-
 static av_cold int init_ass(AVFilterContext *ctx)
 {
     AssContext *ass = ctx->priv;
@@ -292,8 +290,6 @@ static int attachment_is_font(AVStream * st)
     }
     return 0;
 }
-
-AVFILTER_DEFINE_CLASS(subtitles);
 
 static av_cold int init_subtitles(AVFilterContext *ctx)
 {
@@ -476,6 +472,5 @@ AVFilter ff_vf_subtitles = {
     .query_formats = query_formats,
     .inputs        = ass_inputs,
     .outputs       = ass_outputs,
-    .priv_class    = &subtitles_class,
 };
 #endif
