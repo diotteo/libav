@@ -2399,6 +2399,7 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .type      = AVMEDIA_TYPE_SUBTITLE,
         .name      = "text",
         .long_name = NULL_IF_CONFIG_SMALL("raw UTF-8 text"),
+        .props     = AV_CODEC_PROP_TEXT_SUB,
     },
     {
         .id        = AV_CODEC_ID_XSUB,
@@ -2407,10 +2408,18 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("XSUB"),
     },
     {
+        .id        = AV_CODEC_ID_ASS,
+        .type      = AVMEDIA_TYPE_SUBTITLE,
+        .name      = "ass",
+        .long_name = NULL_IF_CONFIG_SMALL("ASS (Advanced SSA) subtitle"),
+        .props     = AV_CODEC_PROP_TEXT_SUB,
+    },
+    {
         .id        = AV_CODEC_ID_SSA,
         .type      = AVMEDIA_TYPE_SUBTITLE,
         .name      = "ssa",
         .long_name = NULL_IF_CONFIG_SMALL("SSA (SubStation Alpha) / ASS (Advanced SSA) subtitle"),
+        .props     = AV_CODEC_PROP_TEXT_SUB,
     },
     {
         .id        = AV_CODEC_ID_MOV_TEXT,
