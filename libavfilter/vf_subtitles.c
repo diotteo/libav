@@ -62,7 +62,7 @@ typedef struct {
 } AssContext;
 
 #define OFFSET(x) offsetof(AssContext, x)
-#define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
+#define FLAGS AV_OPT_FLAG_VIDEO_PARAM
 
 #define COMMON_OPTIONS \
     {"filename",       "set the filename of file to read",                         OFFSET(filename),   AV_OPT_TYPE_STRING,     {.str = NULL},  CHAR_MIN, CHAR_MAX, FLAGS }, \
@@ -133,7 +133,8 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static int query_formats(AVFilterContext *ctx)
 {
-    return ff_set_common_formats(ctx, ff_draw_supported_pixel_formats(0));
+    ff_set_common_formats(ctx, ff_draw_supported_pixel_formats(0));
+    return 0;
 }
 
 static int config_input(AVFilterLink *inlink)

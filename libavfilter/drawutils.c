@@ -20,6 +20,7 @@
 
 #include <string.h>
 
+#include "libavutil/common.h"
 #include "libavutil/avassert.h"
 #include "libavutil/avutil.h"
 #include "libavutil/colorspace.h"
@@ -34,15 +35,12 @@ enum { RED = 0, GREEN, BLUE, ALPHA };
 int ff_fill_rgba_map(uint8_t *rgba_map, enum AVPixelFormat pix_fmt)
 {
     switch (pix_fmt) {
-    case AV_PIX_FMT_0RGB:
     case AV_PIX_FMT_ARGB:  rgba_map[ALPHA] = 0; rgba_map[RED  ] = 1; rgba_map[GREEN] = 2; rgba_map[BLUE ] = 3; break;
-    case AV_PIX_FMT_0BGR:
     case AV_PIX_FMT_ABGR:  rgba_map[ALPHA] = 0; rgba_map[BLUE ] = 1; rgba_map[GREEN] = 2; rgba_map[RED  ] = 3; break;
     case AV_PIX_FMT_RGB48LE:
     case AV_PIX_FMT_RGB48BE:
     case AV_PIX_FMT_RGBA64BE:
     case AV_PIX_FMT_RGBA64LE:
-    case AV_PIX_FMT_RGB0:
     case AV_PIX_FMT_RGBA:
     case AV_PIX_FMT_RGB24: rgba_map[RED  ] = 0; rgba_map[GREEN] = 1; rgba_map[BLUE ] = 2; rgba_map[ALPHA] = 3; break;
     case AV_PIX_FMT_BGR48LE:
@@ -50,21 +48,14 @@ int ff_fill_rgba_map(uint8_t *rgba_map, enum AVPixelFormat pix_fmt)
     case AV_PIX_FMT_BGRA64BE:
     case AV_PIX_FMT_BGRA64LE:
     case AV_PIX_FMT_BGRA:
-    case AV_PIX_FMT_BGR0:
     case AV_PIX_FMT_BGR24: rgba_map[BLUE ] = 0; rgba_map[GREEN] = 1; rgba_map[RED  ] = 2; rgba_map[ALPHA] = 3; break;
     case AV_PIX_FMT_GBRP9LE:
     case AV_PIX_FMT_GBRP9BE:
     case AV_PIX_FMT_GBRP10LE:
     case AV_PIX_FMT_GBRP10BE:
-    case AV_PIX_FMT_GBRP12LE:
-    case AV_PIX_FMT_GBRP12BE:
-    case AV_PIX_FMT_GBRP14LE:
-    case AV_PIX_FMT_GBRP14BE:
     case AV_PIX_FMT_GBRP16LE:
     case AV_PIX_FMT_GBRP16BE:
     case AV_PIX_FMT_GBRAP:
-    case AV_PIX_FMT_GBRAP12LE:
-    case AV_PIX_FMT_GBRAP12BE:
     case AV_PIX_FMT_GBRAP16LE:
     case AV_PIX_FMT_GBRAP16BE:
     case AV_PIX_FMT_GBRP:  rgba_map[GREEN] = 0; rgba_map[BLUE ] = 1; rgba_map[RED  ] = 2; rgba_map[ALPHA] = 3; break;
@@ -256,7 +247,7 @@ void ff_draw_color(FFDrawContext *draw, FFDrawColor *color, const uint8_t rgba[4
             color->comp[2].u16[0] = color->comp[2].u8[0] << (draw->desc->comp[2].depth - 8);
         if (draw->desc->comp[3].depth > 8)
             color->comp[3].u16[0] = color->comp[3].u8[0] << (draw->desc->comp[3].depth - 8);
-    } else if (draw->format == AV_PIX_FMT_GRAY8 || draw->format == AV_PIX_FMT_GRAY8A) {
+    } else if (draw->format == AV_PIX_FMT_GRAY8) {
         color->comp[0].u8[0] = RGB_TO_Y_CCIR(rgba[0], rgba[1], rgba[2]);
         color->comp[1].u8[0] = rgba[3];
     } else if (draw->format == AV_PIX_FMT_GRAY16LE || draw->format == AV_PIX_FMT_YA16LE) {
