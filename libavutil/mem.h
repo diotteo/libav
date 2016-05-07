@@ -237,6 +237,29 @@ char *av_strndup(const char *s, size_t len) av_malloc_attrib;
 void av_freep(void *ptr);
 
 /**
+ * Add an element to a dynamic array.
+ *
+ * The array to grow is supposed to be an array of pointers to
+ * structures, and the element to add must be a pointer to an already
+ * allocated structure.
+ *
+ * The array is reallocated when its size reaches powers of 2.
+ * Therefore, the amortized cost of adding an element is constant.
+ *
+ * In case of success, the pointer to the array is updated in order to
+ * point to the new grown array, and the number pointed to by nb_ptr
+ * is incremented.
+ * In case of failure, the array is freed, *tab_ptr is set to NULL and
+ * *nb_ptr is set to 0.
+ *
+ * @param tab_ptr pointer to the array to grow
+ * @param nb_ptr  pointer to the number of elements in the array
+ * @param elem    element to add
+ * @see av_dynarray_add_nofree(), av_dynarray2_add()
+ */
+void av_dynarray_add(void *tab_ptr, int *nb_ptr, void *elem);
+
+/**
  * deliberately overlapping memcpy implementation
  * @param dst destination buffer
  * @param back how many bytes back we start (the initial size of the overlapping window)

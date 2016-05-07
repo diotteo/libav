@@ -37,6 +37,7 @@
 #include "avutil.h"
 #include "common.h"
 #include "intreadwrite.h"
+#include "dynarray.h"
 #include "mem.h"
 
 #ifdef MALLOC_PREFIX
@@ -246,6 +247,20 @@ char *av_strndup(const char *s, size_t len)
     memcpy(ret, s, len);
     ret[len] = 0;
     return ret;
+}
+
+void av_dynarray_add(void *tab_ptr, int *nb_ptr, void *elem)
+{
+    void **tab;
+    memcpy(&tab, tab_ptr, sizeof(tab));
+
+    AV_DYNARRAY_ADD(INT_MAX, sizeof(*tab), tab, *nb_ptr, {
+        tab[*nb_ptr] = elem;
+        memcpy(tab_ptr, &tab, sizeof(tab));
+    }, {
+        *nb_ptr = 0;
+        av_freep(tab_ptr);
+    });
 }
 
 static void fill16(uint8_t *dst, int len)
