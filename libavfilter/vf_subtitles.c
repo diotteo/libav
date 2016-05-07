@@ -463,10 +463,18 @@ end:
     return ret;
 }
 
+static const AVClass subtitles_class = {
+    .class_name = "subtitles",
+    .item_name  = av_default_item_name,
+    .option     = subtitles_options,
+    .version    = LIBAVUTIL_VERSION_INT,
+};
+
 AVFilter ff_vf_subtitles = {
     .name          = "subtitles",
     .description   = NULL_IF_CONFIG_SMALL("Render text subtitles onto input video using the libass library."),
     .priv_size     = sizeof(AssContext),
+		.priv_class    = &subtitles_class,
     .init          = init_subtitles,
     .uninit        = uninit,
     .query_formats = query_formats,
