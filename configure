@@ -189,6 +189,7 @@ External library support:
   --enable-bzlib           enable bzlib [autodetect]
   --enable-frei0r          enable frei0r video filtering
   --enable-gnutls          enable gnutls [no]
+  --enable-libass          enable libass subtitles rendering
   --enable-libbs2b         enable bs2b DSP library [no]
   --enable-libcdio         enable audio CD grabbing with libcdio
   --enable-libdc1394       enable IIDC-1394 grabbing using libdc1394
@@ -1214,6 +1215,7 @@ EXTERNAL_LIBRARY_LIST="
     bzlib
     frei0r
     gnutls
+    libass
     libbs2b
     libcdio
     libdc1394
@@ -2403,6 +2405,7 @@ ocv_filter_deps="libopencv"
 resample_filter_deps="avresample"
 scale_filter_deps="swscale"
 scale_vaapi_filter_deps="vaapi VAProcPipelineParameterBuffer"
+subtitles_filter_deps="avformat avcodec libass"
 
 # examples
 avcodec_example_deps="avcodec avutil"
@@ -4559,6 +4562,7 @@ enabled avisynth          && { check_lib2 "avisynth/avisynth_c.h windows.h" Load
 enabled cuda              && check_lib cuda.h cuInit -lcuda
 enabled frei0r            && { check_header frei0r.h || die "ERROR: frei0r.h header not found"; }
 enabled gnutls            && require_pkg_config gnutls gnutls/gnutls.h gnutls_global_init
+enabled libass            && require_pkg_config libass ass/ass.h ass_library_init
 enabled libbs2b           && require_pkg_config libbs2b bs2b.h bs2b_open
 enabled libdcadec         && require libdcadec libdcadec/dca_context.h dcadec_context_create -ldcadec
 enabled libfaac           && require2 libfaac "stdint.h faac.h" faacEncGetVersion -lfaac
